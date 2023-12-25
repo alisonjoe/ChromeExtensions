@@ -1,0 +1,33 @@
+{
+  "name": "OneCookie",
+  "description": "提交Cookie到青龙服务器，以便在其他设备上使用",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "webNavigation",
+    "activeTab",
+    "storage",
+    "scripting",
+    "cookies"
+  ],
+  "action": {
+	  "default_popup": "home.html",
+	  "default_icon": {
+		  "16": "images/get_started16.png",
+		  "32": "images/get_started32.png",
+		  "48": "images/get_started48.png",
+		  "128": "images/get_started128.png"
+	  }
+  },
+  "icons": {
+	  "16": "images/get_started16.png",
+	  "32": "images/get_started32.png",
+	  "48": "images/get_started48.png",
+	  "128": "images/get_started128.png"
+  },
+  "options_page": "options.html"
+}
