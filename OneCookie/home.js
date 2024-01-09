@@ -71,6 +71,7 @@ async function getJDCookie() {
                   if (result.pt_key && result.pt_pin) {
                       resolve(result);
                   } else {
+                      alert("请先登录京东网页版")
                       reject(new Error('pt_key or pt_pin not found in cookies.'));
                   }
               }
@@ -92,10 +93,11 @@ getCookieBtn.addEventListener('click', async () => {
           // 这里你可以对 pt_key 和 pt_pin 进行处理
           textShow.value = `pt_key=${pt_key};pt_pin=${pt_pin}`;
       } else {
-          console.error('Cookie not found.');
+        alert("请先登录京东网页版")
+        console.log('Cookie not found.');
       }
   } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
   }
 });
 
@@ -115,6 +117,10 @@ pushBtn.addEventListener('click', async () => {
   try {
     // 调用 getQLToken 获取 token
     const qlToken = await getQLToken();
+    if (qlToken == null || qlToken == "") {
+      alert("确认你填入了正确的青龙服务器配置")
+      return;
+    }
 
     // 在这里处理获取到 token 后的逻辑
     console.log('Got Qinglong Token:', qlToken);
@@ -138,10 +144,9 @@ pushBtn.addEventListener('click', async () => {
       console.log('Environment variable not found for pt_pin:', pt_pin);
       // 在这里处理未找到环境变量的逻辑
     }
-
     // 在这里添加你的逻辑，使用 qlToken 向服务器提交请求等
   } catch (error) {
-    console.error('Error:', error);
+    console.log('Error:', error);
     // 在这里处理获取 token 失败的逻辑
   }
 });

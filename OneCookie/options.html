@@ -1,15 +1,50 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="index.css">
-	</head>
-	<body>
-		<div id="buttonDiv">
-		</div>
-		<div>
-			<p>Choose a different background color!</p>
-		</div>
-		<script src="options.js"></script>
-	</body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>OneCookies</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#systemAnnouncement">System Announcement</a></li>
+                <li><a href="#qinglongSettings">Qinglong Settings</a></li>
+                <!-- Add more menu items as needed -->
+            </ul>
+        </div>
+        <div class="content" id="systemAnnouncement">
+			<h2>System Announcement</h2>
+			<p>Welcome to our system! Here are some important announcements:</p>
+			<ul>
+				<li>Announcement 1</li>
+				<li>Announcement 2</li>
+				<li>Announcement 3</li>
+			</ul>
+			<p>Stay tuned for more updates!</p>
+        </div>
+        <!-- Qinglong Settings Content Goes Here -->
+        <div class="content" id="qinglongSettings">
+            <h2>Qinglong Settings</h2>
+            <label for="qinglongURL">Qinglong URL:</label>
+            <input type="text" id="qinglongURL" placeholder="Enter Qinglong Server Address" />
+
+            <label for="clientId">Client ID:</label>
+            <input type="text" id="clientId" placeholder="Enter Client ID" />
+
+            <label for="clientSecret">Client Secret:</label>
+            <input type="text" id="clientSecret" placeholder="Enter Client Secret" />
+
+            <button id="saveButton">Save</button>
+        </div>
+
+        <!-- Add more content sections as needed -->
+    </div>
+</body>
+
+<script src="options.js"></script>
 </html>

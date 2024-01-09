@@ -1,34 +1,38 @@
 // 获取 qinglong 动态 token
-function getQLToken() {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        const cid = "ZbmkOvwR_96U";
-        const secret = "d4umwwlB8d792l8US_BM06zt";
-        const tokenURL = `http://qinglong.wxy-vision.com/open/auth/token?client_id=${cid}&client_secret=${secret}`;
+async function getQLToken() {
+    const { qinglongURL, clientId, clientSecret } = getSavedQinglongSettings();
+    const tokenURL = `${qinglongURL}/open/auth/token?client_id=${clientId}&client_secret=${clientSecret}`;
 
-        xhr.open('GET', tokenURL, true);
-        xhr.send();
+    try {
+        const response = await fetch(tokenURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    const responseData = JSON.parse(xhr.responseText);
-                    if (responseData.code === 200) {
-                        resolve(responseData.data.token);
-                    } else {
-                        reject(`Request failed. Returned status of ${xhr.status}. Code: ${responseData.code}`);
-                    }
-                } else {
-                    reject(`Request failed. Returned status of ${xhr.status}`);
-                }
-            }
-        };
-    });
+        if (!response.ok) {
+            throw new Error(`Failed to get token. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.code !== 200) {
+            throw new Error(`Failed to get token. Code: ${data.code}, Message: ${data.message}`);
+        }
+
+        return data.data.token;
+    } catch (error) {
+        alert("请检查青龙配置:" + error.message)
+        throw new Error(`Error getting token: ${error.message}`);
+    }
 }
+
+
 
 // 定义获取所有环境变量的函数
 async function getAllEnvs(qlToken) {
-    const apiUrl = 'http://qinglong.wxy-vision.com/open/envs/';
+    const { qinglongURL, clientId, clientSecret } = getSavedQinglongSettings();
+    const apiUrl = `${qinglongURL}/open/envs/`;
 
     try {
         const response = await fetch(apiUrl, {
@@ -53,7 +57,8 @@ async function getAllEnvs(qlToken) {
 
 // 更新环境变量
 async function updateEnv(qlToken, envId, newValue, remarks) {
-    const updateEnvUrl = `http://qinglong.wxy-vision.com/open/envs`;
+    const { qinglongURL, clientId, clientSecret } = getSavedQinglongSettings();
+    const updateEnvUrl = `${qinglongURL}/open/envs`;
     
     const response = await fetch(updateEnvUrl, {
         method: 'PUT',
@@ -83,7 +88,8 @@ async function updateEnv(qlToken, envId, newValue, remarks) {
 
 // 启用环境变量
 async function enableEnv(qlToken, envId) {
-    const enableEnvUrl = `http://qinglong.wxy-vision.com/open/envs/enable`;
+    const { qinglongURL, clientId, clientSecret } = getSavedQinglongSettings();
+    const enableEnvUrl = `${qinglongURL}/open/envs/enable`;
 
     try {
     const response = await fetch(enableEnvUrl, {
@@ -125,4 +131,17 @@ function showNotification(title, message) {
         title: title,
         message: message
     });
+}
+
+// 获取保存的 Qinglong 设置
+function getSavedQinglongSettings() {
+    const qinglongURL = localStorage.getItem('qinglongURL') || '';
+    const clientId = localStorage.getItem('clientId') || '';
+    const clientSecret = localStorage.getItem('clientSecret') || '';
+
+    return {
+        qinglongURL,
+        clientId,
+        clientSecret,
+    };
 }
