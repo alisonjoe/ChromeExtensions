@@ -112,7 +112,7 @@ openJDTabBtn.addEventListener('click', () => {
   chrome.tabs.create({ url: 'https://m.jd.com' });
 });
 
-// 对 http://qinglong.wxy-vision.com 发起 HTTP 请求 
+
 pushBtn.addEventListener('click', async () => {
   try {
     // 调用 getQLToken 获取 token
